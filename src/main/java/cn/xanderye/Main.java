@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        boolean isJfx = true;
+        // 选择精简rt.jar还是jfxrt.jar
+        boolean isJfx = false;
         Scanner scanner = new Scanner(System.in);
         System.out.print("请输入classes.txt文件路径（支持拖拽）：");
         // class列表文件
