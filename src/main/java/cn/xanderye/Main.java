@@ -7,6 +7,11 @@ public class Main {
     public static void main(String[] args) {
         // 选择精简rt.jar还是jfxrt.jar
         boolean isJfx = false;
+        if (args.length > 0) {
+            if ("jfx".equals(args[0])) {
+                isJfx = true;
+            }
+        }
         Scanner scanner = new Scanner(System.in);
         System.out.print("请输入classes.txt文件路径（支持拖拽）：");
         // class列表文件

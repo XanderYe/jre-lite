@@ -1,4 +1,4 @@
-package cn.xanderye;
+package cn.xanderye.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.io.InputStream;
  *
  * @author XanderYe
  */
-public class Util {
+public class FileUtil {
 
     /**
      * 分割字符串
@@ -64,15 +64,15 @@ public class Util {
      * @date 2020/3/9
      */
     public static void copyFile(String oldPath, String newPath) {
-        try {
-            File oldFile = new File(oldPath);
-            if (oldFile.exists()) {
+        File oldFile = new File(oldPath);
+        if (oldFile.exists()) {
+            try (InputStream inStream = new FileInputStream(oldPath);
+                 FileOutputStream fs = new FileOutputStream(newPath)) {
+
                 String newFolderPath = newPath.substring(0, newPath.lastIndexOf(File.separator));
                 // 目标路径不存在时自动创建文件夹
                 new File(newFolderPath).mkdirs();
                 // 文件存在时读入原文件
-                InputStream inStream = new FileInputStream(oldPath);
-                FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1024];
                 int byteSum = 0;
                 int byteRead;
@@ -81,11 +81,10 @@ public class Util {
                     byteSum += byteRead;
                     fs.write(buffer, 0, byteRead);
                 }
-                inStream.close();
+            } catch (Exception e) {
+                System.out.println("复制单个文件出错");
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.out.println("复制单个文件出错");
-            e.printStackTrace();
         }
     }
 
@@ -176,8 +175,8 @@ public class Util {
             if (files == null) {
                 file.delete();
             } else {
-                for (int i = 0; i < files.length; i++) {
-                    deleteFile(files[i].getAbsolutePath());
+                for (File value : files) {
+                    deleteFile(value.getAbsolutePath());
                 }
                 file.delete();
             }
